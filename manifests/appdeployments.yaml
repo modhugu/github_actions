@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chess
+spec:
+  selector:
+    matchLabels:
+      app: chess
+  template:
+    metadata:
+      labels:
+        app: chess
+    spec:
+      containers:
+      - name: chess
+        image: shaikkhajaibrahim/chess:6f335a072ce943661b5710b4902051f0a90e680e
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chess-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: chess
+  ports:
+  - port: 80
+    targetPort: 80
+
